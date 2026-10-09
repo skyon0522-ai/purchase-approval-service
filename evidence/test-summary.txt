@@ -1,0 +1,13 @@
+Command: python -m unittest discover -s tests -t . -v
+Result: PASS
+Tests: 5
+Elapsed seconds: 21.551
+Actual-server semantic checks: 7
+
+- malformed edits/decisions and stale approval rejected; request remains pending at revision 2
+- pending revision survived actual worker process termination and restart
+- approved revision released exactly one matching supplier order; subsequent edit rejected
+- reject, application cancel and Temporal cancellation while pending created no supplier order
+- malformed submitted money fails the real workflow with InvalidRequest
+- real Temporal retries after supplier commit and repeated release produce one order; conflicting reuse fails
+- released, rejected, application-cancelled and Temporal-cancelled histories replay deterministically

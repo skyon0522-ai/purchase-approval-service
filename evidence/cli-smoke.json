@@ -1,0 +1,81 @@
+{
+  "result": "passed",
+  "cli_server": "official persistent local development server",
+  "steps": [
+    {
+      "arguments": [
+        "submit",
+        ".cache/cli-request.json"
+      ],
+      "exit_code": 0,
+      "output": "{\"request_id\": \"cli-509f7869d95b\", \"run_id\": \"01a11e50-11fb-78e6-a87a-46966441552e\"}"
+    },
+    {
+      "arguments": [
+        "status",
+        "cli-509f7869d95b"
+      ],
+      "exit_code": 0,
+      "output": "{\"request\": {\"currency\": \"USD\", \"item\": \"USB keyboard\", \"quantity\": 2, \"request_id\": \"cli-509f7869d95b\", \"revision\": 1, \"status\": \"pending\", \"unit_price_cents\": 3200}, \"temporal_status\": \"RUNNING\"}"
+    },
+    {
+      "arguments": [
+        "revise",
+        "cli-509f7869d95b",
+        ".cache/cli-revision.json"
+      ],
+      "exit_code": 0,
+      "output": "{\"currency\": \"USD\", \"item\": \"USB keyboard\", \"quantity\": 1, \"request_id\": \"cli-509f7869d95b\", \"revision\": 2, \"status\": \"pending\", \"unit_price_cents\": 3200}"
+    },
+    {
+      "arguments": [
+        "approve",
+        "cli-509f7869d95b",
+        "--revision",
+        "1",
+        "--actor",
+        "reviewer"
+      ],
+      "exit_code": 1,
+      "output": "Request failed: Workflow update failed"
+    },
+    {
+      "arguments": [
+        "approve",
+        "cli-509f7869d95b",
+        "--revision",
+        "2",
+        "--actor",
+        "reviewer"
+      ],
+      "exit_code": 0,
+      "output": "{\"actor\": \"reviewer\", \"currency\": \"USD\", \"item\": \"USB keyboard\", \"quantity\": 1, \"request_id\": \"cli-509f7869d95b\", \"revision\": 2, \"status\": \"approved\", \"unit_price_cents\": 3200}"
+    },
+    {
+      "arguments": [
+        "status",
+        "cli-509f7869d95b"
+      ],
+      "exit_code": 0,
+      "output": "{\"request\": {\"actor\": \"reviewer\", \"currency\": \"USD\", \"item\": \"USB keyboard\", \"order_id\": \"mock-cli-509f7869d95b\", \"quantity\": 1, \"request_id\": \"cli-509f7869d95b\", \"revision\": 2, \"status\": \"released\", \"unit_price_cents\": 3200}, \"temporal_status\": \"COMPLETED\"}"
+    },
+    {
+      "arguments": [
+        "orders",
+        "--db",
+        ".cache/cli-supplier.sqlite3"
+      ],
+      "exit_code": 0,
+      "output": "[{\"actor\": \"reviewer\", \"currency\": \"USD\", \"item\": \"USB keyboard\", \"order_id\": \"mock-cli-509f7869d95b\", \"quantity\": 1, \"request_id\": \"cli-509f7869d95b\", \"revision\": 2, \"total_cents\": 3200, \"unit_price_cents\": 3200}]"
+    },
+    {
+      "arguments": [
+        "submit",
+        ".cache/cli-request.json"
+      ],
+      "exit_code": 1,
+      "output": "Request failed: Workflow execution already started"
+    }
+  ],
+  "request_id": "cli-509f7869d95b"
+}

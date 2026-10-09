@@ -1,0 +1,12 @@
+.venv*/
+.cache/
+__pycache__/
+*.pyc
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+evidence/worker-*.log
+evidence/test-run.txt
+evidence/demo-output.txt
+evidence/clean-install.txt
+dist/

@@ -1,0 +1,33 @@
+{
+  "sdk_version": "1.34.0",
+  "server_endpoint": "127.0.0.1:50297",
+  "worker_process_ids": [
+    64224,
+    58136
+  ],
+  "checks": [
+    "malformed edits/decisions and stale approval rejected; request remains pending at revision 2",
+    "pending revision survived actual worker process termination and restart",
+    "approved revision released exactly one matching supplier order; subsequent edit rejected",
+    "reject, application cancel and Temporal cancellation while pending created no supplier order",
+    "malformed submitted money fails the real workflow with InvalidRequest",
+    "real Temporal retries after supplier commit and repeated release produce one order; conflicting reuse fails",
+    "released, rejected, application-cancelled and Temporal-cancelled histories replay deterministically"
+  ],
+  "supplier_orders": 2,
+  "released_request": {
+    "actor": "reviewer",
+    "currency": "USD",
+    "item": "USB keyboard",
+    "order_id": "mock-restart-b87a6d18456d",
+    "quantity": 1,
+    "request_id": "restart-b87a6d18456d",
+    "revision": 2,
+    "status": "released",
+    "unit_price_cents": 3200
+  },
+  "server_binaries": [
+    "temporal-sdk-python-1.34.0.exe",
+    "temporal-v1.9.1.exe"
+  ]
+}

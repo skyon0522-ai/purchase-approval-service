@@ -1,0 +1,82 @@
+{
+  "result": "passed",
+  "verified_at_utc": "2026-10-09T01:40:59.979552+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python_version": "3.12.14",
+  "packages": {
+    "temporalio": "1.34.0",
+    "nexus-rpc": "1.4.0",
+    "protobuf": "7.36.2",
+    "types-protobuf": "7.35.1.20260906",
+    "typing-extensions": "4.16.0"
+  },
+  "server": {
+    "pinned_cli_version": "v1.9.1",
+    "observed_version": "temporal version 1.9.1 (Server 1.32.0, UI 2.54.1)",
+    "filename": "temporal-v1.9.1.exe",
+    "sha256": "c49d7f0d9f6a7ae5aed3b97a259070c1cee7bf7e7543be9b4c602109caf3c806"
+  },
+  "sdk_wheel": {
+    "filename": "temporalio-1.34.0-cp310-abi3-win_amd64.whl",
+    "sha256": "03bd86561188c18d88425178bc690fe0791104b78566dcebd98f59cbdbce0952",
+    "matched_official_pypi_digest": true
+  },
+  "commands": [
+    {
+      "command": "setup.ps1 -Python <Python 3.12.14 executable>",
+      "result": "passed in a fresh .venv with official wheels supplied through PIP_NO_INDEX and PIP_FIND_LINKS"
+    },
+    {
+      "command": "python -m unittest discover -s tests -t . -v",
+      "exit_code": 0,
+      "tests": 5,
+      "elapsed_seconds": 21.551,
+      "semantic_checks": 7
+    },
+    {
+      "command": "python demo.py",
+      "exit_code": 0,
+      "steps": 5,
+      "supplier_orders": 1
+    },
+    {
+      "command": "python app.py CLI sequence",
+      "exit_code": 0,
+      "checked_commands": 8,
+      "details": "cli-smoke.json"
+    },
+    {
+      "command": "python -m pip check",
+      "exit_code": 0,
+      "observed_output": "No broken requirements found."
+    }
+  ],
+  "scope": {
+    "worker_restart": "two distinct worker processes; Temporal server stayed running",
+    "cancellation": "no-order checks only while pending",
+    "supplier": "local SQLite mock; no external supplier call",
+    "authentication": "not implemented",
+    "remote_ci": "prepared, not run",
+    "publication": "not performed"
+  },
+  "source_sha256": {
+    ".gitignore": "5a60581ce9b4b768eba8b07370b26edb01b238ce79016d85a234bf9ef8815de2",
+    ".github/workflows/test.yml": "0ee70fee3910465d3a82a75eacbdca882cd08eee3712b1db2b30c7bf74f1174e",
+    "IMPLEMENTATION_BRIEF.md": "9b75c16c79d8acd048fff4552e35fe70df74c36203a26d5afb35553b77e4b235",
+    "LICENSE": "4b52070c2ac7baf18d63e0c2127a26a9a7a58da1e9956f4240694c39a7915c1e",
+    "PROVENANCE.md": "fa52b565b6a33aa2c8f405fea7978db476a9c2ac096459b4ff7b68ef167719af",
+    "README.md": "2f23a48122cdd077002c395097714d3afd411df69e358fa8a17e2353d07c7864",
+    "approval.py": "6631393bb8103792c7c0efa8143870101d455c681a3d43bb894428bf5ce28ea9",
+    "app.py": "2a7bf269921f24b065ff1aae31196161a584e2723a5bb31d464d0dfa327ecd3b",
+    "supplier.py": "7beffcb3198cd37faa87b421a21ca273c8a4d15bc8eda67d66c6af12867f3148",
+    "demo.py": "6ff11cde4c0c02585eab5ae4c6d150b181228c6d71fd95dacbfdbb1efe0112db",
+    "setup.ps1": "276e130e0aa6145258fc1924216e39eaf578328340870981efafdb5a6aab5c48",
+    "requirements.txt": "bcecc46835830a9188bb6023a5d2a1782d98182e88a1f51c26f17cc28ede4575",
+    "requirements.lock": "c740398e78b8799eb52d447b260f0b211cfac360df8f7f5464ad87e2ab5c9e0f",
+    "examples/request.json": "cf51a8c84c1a050d4f8f0afdd91b91f7425b2d236664605e6df5a1ee0f602949",
+    "examples/revision.json": "76ab2f7f010e9a4c765dfc20345842da81d599c67457aa7accc3fc1ad01210f4",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/probe_workflow.py": "1f12d3aadbeb6f1ce517d4c4e44498eced83732169130830b3c405e86bcaa33a",
+    "tests/test_approval.py": "adfe7a05e23fcb370392fe07f56f1eff4be8f23bb03cc4a7614fa794393d6d15"
+  }
+}
