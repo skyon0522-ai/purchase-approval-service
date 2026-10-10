@@ -6,7 +6,7 @@ A runnable local purchase-approval workflow that rejects outdated approvals and 
 
 An operations team can inspect the complete path from request to decision to supplier order. Temporal retains the pending workflow when a worker process stops. SQLite detects repeated or conflicting supplier calls. The repository demonstrates these behaviors using actual Temporal execution and saved replay histories.
 
-[Quick demo](#quick-demonstration) · [CLI](#operate-a-request-with-the-cli) · [Verification](#verification) · [Scope](#scope)
+[Quick demo](#quick-demonstration) · [CLI](#operate-a-request-with-the-cli) · [Verification](#verification) · [Source provenance](PROVENANCE.md) · [Scope](#scope)
 
 ## Quick demonstration
 
