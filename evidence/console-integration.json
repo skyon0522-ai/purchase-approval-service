@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Real HTTP create/revise; duplicate, malformed money and stale decision rejected without an order",
+    "Pending revision retained across full console/worker/server restart; old token and second console rejected",
+    "Approval releases one matching mock order; repeated decision cannot create another",
+    "Reject and application cancel create no mock order",
+    "SIGTERM closes both owned listeners; private local database modes retained"
+  ],
+  "actual_temporal_execution": true,
+  "core_approval_logic_changed": false,
+  "supplier": "Local SQLite mock only",
+  "authentication": "Not implemented"
+}

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="console-token" content="__CONSOLE_TOKEN__">
+  <title>Purchase Approval Service</title>
+  <link rel="stylesheet" href="/app.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#workspace">Skip to workspace</a>
+  <header class="shell">
+    <p class="eyebrow">LOCAL WORKFLOW DEMO</p>
+    <h1>Purchase approval</h1>
+    <p>Create a fictional purchase, review the current revision and confirm a decision.</p>
+    <p>Actual Temporal workflow · SQLite mock supplier · No authenticated users or real orders</p>
+  </header>
+  <main class="shell" id="workspace">
+    <p id="feedback" role="status" aria-live="polite">Ready. Create a request or load its ID.</p>
+    <p id="error" class="notice" role="alert" tabindex="-1" hidden></p>
+    <section class="panel" aria-labelledby="request-heading">
+      <h2 id="request-heading">1. Create or load a request</h2>
+      <form id="purchase-form">
+        <label for="request-id">Request ID</label>
+        <div class="row"><input id="request-id" required maxlength="64" pattern="[A-Za-z0-9][A-Za-z0-9_-]{0,63}" value="purchase-demo-001"><button id="load" type="button" class="secondary">Load request</button></div>
+        <p class="hint">Use a new ID for each purchase. Load an existing ID to resume after a restart.</p>
+        <label for="item">Item</label><input id="item" required maxlength="200" value="USB keyboard">
+        <div class="columns">
+          <div><label for="quantity">Quantity</label><input id="quantity" type="number" required min="1" max="1000" step="1" value="2"></div>
+          <div><label for="unit-price">Unit price (USD cents)</label><input id="unit-price" type="number" required min="1" max="1000000" step="1" value="3200"></div>
+        </div>
+        <p id="draft-total">Draft total: USD 64.00</p>
+        <div class="row"><button id="create" type="submit">Create request</button><button id="revise" type="button" class="secondary" disabled>Save a new revision</button></div>
+      </form>
+    </section>
+    <section class="panel" aria-labelledby="current-heading">
+      <h2 id="current-heading">2. Inspect the loaded revision</h2>
+      <p id="state">No request loaded.</p>
+      <dl id="current" hidden></dl>
+      <button id="refresh" type="button" class="secondary" disabled>Reload current request</button>
+      <p class="hint">Draft edits are not saved until you select “Save a new revision”. A decision applies to the loaded revision shown here.</p>
+    </section>
+    <section class="panel" aria-labelledby="decision-heading">
+      <h2 id="decision-heading">3. Review a decision</h2>
+      <form id="decision-form">
+        <label for="actor">Actor label</label><input id="actor" required maxlength="80" value="reviewer" aria-describedby="actor-help">
+        <p id="actor-help" class="hint">A caller-supplied label, not a verified identity.</p>
+        <label for="decision">Decision</label><select id="decision"><option value="approve">Approve</option><option value="reject">Reject</option><option value="cancel">Cancel request</option></select>
+        <button id="review" type="submit" disabled>Review decision</button>
+      </form>
+    </section>
+    <section class="panel" aria-labelledby="orders-heading">
+      <div class="row"><h2 id="orders-heading">Mock supplier orders</h2><button id="orders-refresh" class="secondary" type="button">Refresh orders</button></div>
+      <p id="orders-status">No orders loaded.</p>
+      <div class="scroll" role="region" aria-label="Mock supplier orders" tabindex="0"><table><thead><tr><th scope="col">Request</th><th scope="col">Item</th><th scope="col">Revision</th><th scope="col">Total</th><th scope="col">Order</th></tr></thead><tbody id="orders"></tbody></table></div>
+    </section>
+    <details class="panel"><summary>Data, recovery and limits</summary>
+      <p>Use fictional data. The process keeps a local Temporal database and a separate mock supplier database. Stop with Ctrl+C; restart with the same data directory and load the request ID. This is a local single-operator example, not a deployed purchasing system.</p>
+      <p>An accepted approval can still be running. Reload the request to confirm “released” and the supplier order. After a lost response, reload before any retry. A cancellation after release cannot undo an order.</p>
+    </details>
+  </main>
+  <dialog id="confirmation" aria-labelledby="confirmation-heading">
+    <h2 id="confirmation-heading">Confirm this decision</h2>
+    <dl id="confirmation-details"></dl>
+    <p>Only this revision will be submitted. The existing workflow rejects an outdated revision.</p>
+    <div class="row"><button id="back" type="button" class="secondary">Back without deciding</button><button id="confirm" type="button">Confirm decision</button></div>
+  </dialog>
+</body>
+</html>

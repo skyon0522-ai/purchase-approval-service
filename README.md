@@ -6,7 +6,54 @@ A runnable local purchase-approval workflow that rejects outdated approvals and 
 
 An operations team can inspect the complete path from request to decision to supplier order. Temporal retains the pending workflow when a worker process stops. SQLite detects repeated or conflicting supplier calls. The repository demonstrates these behaviors using actual Temporal execution and saved replay histories.
 
-[Quick demo](#quick-demonstration) · [CLI](#operate-a-request-with-the-cli) · [Verification](#verification) · [Source provenance](PROVENANCE.md) · [Scope](#scope)
+[Start on Linux](#try-the-browser-console-on-linux) · [CLI](#operate-a-request-with-the-cli) · [Verification](#verification) · [Scope](#scope)
+
+## Try the browser console on Linux
+
+Create and revise a request, inspect its exact revision and total, then confirm
+approval, rejection or cancellation in a separate dialog. This interface calls
+the existing Temporal workflow and SQLite mock supplier; it does not simulate
+approval in the browser.
+
+![Actual confirmation of revision 2, one keyboard at USD 32.00.](docs/assets/confirmation.png)
+
+[View the full workspace](docs/assets/workspace.png).
+
+Use Linux with Python 3.12; the recorded run used Ubuntu 24.04 x86_64 and
+Python 3.12.3. From a clone of this repository:
+
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install --only-binary=:all: -r requirements.lock
+.venv/bin/python console.py
+```
+
+Open the printed `http://127.0.0.1:8088` address. One foreground process owns the
+local Temporal development server, product worker and console. The first run
+downloads the pinned official Temporal CLI 1.9.1; package and binary acquisition
+need internet access. It needs no Docker, cloud account, LLM API or paid service.
+
+1. **Create request** using the fictional keyboard example. Keep its request ID.
+2. Set quantity to **1**, then **Save a new revision**. The loaded revision is 2
+   and its total is USD 32.00. Editing fields alone does not change the request.
+3. Select **Review decision**. Inspect the request ID, revision, amount and actor
+   label before confirming. **Back without deciding** and Escape make no decision.
+4. Select **Reload current request** to confirm `released` and one mock order.
+   An accepted approval can still be running; it is not yet proof of release.
+
+Ctrl+C stops the console and its owned services. The two databases remain in
+`.cache/console`. Restart with the same directory and **Load request** using the
+same ID. A pending revision survived a full console/worker/development-server
+restart in the local test. The console refuses a second process using its data
+directory. This is graceful restart evidence, not a power-loss or backup test.
+
+Use `console.py --port 8090 --data-dir /path/to/demo-data` for another local port
+and data directory. Open the printed numeric loopback address. Unsaved browser
+fields are not persisted across page reloads. After a lost response, the page
+keeps the draft, disables further changes and directs you to reload the request;
+it does not automatically repeat a write. A stale decision requires a reload too.
+The Linux console is separate from the existing Windows-capable CLI below.
+
 
 ## Quick demonstration
 
@@ -21,19 +68,23 @@ The excerpt above omits the supplier payload for readability; the evidence file 
 
 Use Python 3.10 or newer. From the repository directory:
 
-```powershell
-# Windows PowerShell:
-./setup.ps1
-.venv/Scripts/python.exe demo.py
-```
-
-The Windows setup uses an extended-length path because the SDK wheel contains deeply nested files. `./setup.ps1 -Python C:/path/to/python.exe` selects a particular Python installation. On Linux/macOS:
-
 ```sh
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.lock
 .venv/bin/python demo.py
 ```
+
+<details>
+<summary>Existing Windows CLI setup</summary>
+
+```powershell
+./setup.ps1
+.venv/Scripts/python.exe demo.py
+```
+
+The Windows setup uses an extended-length path because the SDK wheel contains deeply nested files. `./setup.ps1 -Python C:/path/to/python.exe` selects a particular Python installation. The new browser console requires Linux; it was not tested on Windows.
+
+</details>
 
 The first run downloads official Temporal CLI 1.9.1 into `.cache/server`. Python package versions and the CLI version are pinned. The first installation needs internet access for packages and that binary. It does not need Docker, an LLM API, cloud credentials or a paid service. Subsequent runs can use the cached binary. The demonstration starts and stops a local server automatically and deletes its temporary mock-supplier database.
 
@@ -46,7 +97,7 @@ python app.py server
 python app.py worker
 ```
 
-Use the same virtual environment in each terminal. The server binds to loopback, and the worker writes its mock supplier database in `.cache`. The server command configures its local database at `.cache/temporal.sqlite3`; server/database recovery is outside the verification here.
+Use the same virtual environment in each terminal. The server binds to loopback, and the worker writes its mock supplier database in `.cache`. The server command configures its local database at `.cache/temporal.sqlite3`; its recovery is outside the console test, which uses the separate `.cache/console` directory.
 
 In another terminal:
 
@@ -89,10 +140,27 @@ The suite uses a real local development server. It terminates and restarts disti
 
 GitHub Actions runs this suite and demo on Python 3.12. The linked verification run passed; [view the run](https://github.com/skyon0522-ai/purchase-approval-service/actions/runs/37874765324).
 
+The new Linux console adds five tests: four HTTP boundary checks and one actual
+workflow integration test. The latter creates and revises requests, rejects
+stale/duplicate operations, gracefully restarts the complete console with a
+pending request, and checks approval, rejection, cancellation and owned-service
+shutdown. Separate real-browser checks cover a stale second page, confirmation,
+discarded acknowledgement, retained draft, one-order readback and escaped text
+at desktop/mobile widths. See [the local record](evidence/linux-console-20261015.json)
+and [console integration checks](evidence/console-integration.json).
+
+The local record is separate from remote CI. The workflow now selects Ubuntu
+24.04 and Python 3.12.3; consult the [workflow runs](https://github.com/skyon0522-ai/purchase-approval-service/actions/workflows/test.yml)
+for the result at a particular published commit. The historical CI link above
+concerns the earlier five-test application.
+
+
 [Integration receipt](evidence/integration.json), [test summary](evidence/test-summary.txt), [verification receipt](evidence/verification.json) and four synthetic history files record what ran. Deliberate activity failures in the local logs are part of the acknowledgement-loss and conflict checks. Verbose process logs, virtual environments and downloaded binaries are excluded from source publication.
 
 ## Scope
 
-This is one local purchase request type, one workflow and one SQLite mock supplier. It has no authenticated actors, authorization roles, real supplier API, payment flow, distributed database, frontend or cloud deployment. Cancellation is proven only while pending; cancelling after release cannot undo an order. The restart test covers the worker while the Temporal server remains running. Saved histories establish compatibility with the current workflow code; future code changes need their own replay check.
+This is one local purchase request type, one workflow and one SQLite mock supplier. It has no authenticated actors, authorization roles, real supplier API, payment flow, distributed database or cloud deployment. Cancellation is proven only while pending; cancelling after release cannot undo an order. The restart test covers the worker while the Temporal server remains running. Saved histories establish compatibility with the current workflow code; future code changes need their own replay check.
 
 The application has not been validated with customers or production workloads. Read [source provenance](PROVENANCE.md) for the upstream patterns and application changes, and [implementation scope](IMPLEMENTATION_BRIEF.md) for the original acceptance boundary.
+
+Read the [local security boundary](SECURITY.md) and [research-to-test mapping](RESEARCH.md) before extending the console.

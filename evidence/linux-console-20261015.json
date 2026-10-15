@@ -1,0 +1,63 @@
+{
+  "observed_at_utc": "2026-10-15T03:43:13.274711+00:00",
+  "status": "PASS",
+  "distribution": "Ubuntu 24.04.4 LTS",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python": "3.12.3",
+  "packages": {
+    "temporalio": "1.34.0",
+    "nexus-rpc": "1.4.0",
+    "protobuf": "7.36.2",
+    "types-protobuf": "7.35.1.20260906",
+    "typing_extensions": "4.16.0"
+  },
+  "temporal_binary": {
+    "version": "temporal version 1.9.1 (Server 1.32.0, UI 2.54.1)",
+    "sha256": "712217694cac9f786a72d4b6c876cd15f3dcf1bf31434d9fed6af25242a327a0"
+  },
+  "base_commit": "19df06cee039bf1231d82b7a7c549f050d4d0b4a",
+  "suite_tests": 10,
+  "original_tests": 5,
+  "new_console_tests": 5,
+  "original_demo_steps": 5,
+  "original_demo_mock_orders": 1,
+  "readme_default_console_and_sigint_shutdown": "PASS",
+  "owned_test_listeners_closed": true,
+  "original_files_unchanged_except_readme_and_workflow": 26,
+  "new_venv_dependency_install": "PASS",
+  "original_requirement_lock_unchanged": true,
+  "actual_console_integration": [
+    "Real HTTP create/revise; duplicate, malformed money and stale decision rejected without an order",
+    "Pending revision retained across full console/worker/server restart; old token and second console rejected",
+    "Approval releases one matching mock order; repeated decision cannot create another",
+    "Reject and application cancel create no mock order",
+    "SIGTERM closes both owned listeners; private local database modes retained"
+  ],
+  "browser": {
+    "checks": [
+      "Create and revise through the real browser; changing the ID disables decisions on another loaded request",
+      "A stale second browser is rejected by the real workflow; reload is required and creates no order",
+      "Separate confirmation shows the loaded revision and total; keyboard Escape makes no decision",
+      "One real approval with an intentionally discarded response; no automatic write retry, draft preserved, reload finds one released order",
+      "Desktop 1440, mobile 390, keyboard table scrolling, print and reduced-motion checks",
+      "Unsafe item text stays text; cancel and reject through the real UI create no further order"
+    ],
+    "desktop_width": 1440,
+    "mobile_width": 390,
+    "discarded_acknowledgement_real_approvals": 1,
+    "final_mock_orders": 1,
+    "external_requests": [],
+    "page_errors": []
+  },
+  "tested_new_source": {
+    "console.py": "49f9912ccd981df903c0384b134a682f7410093d7f1c34bd40efe70788f6fa48",
+    "web/index.html": "3868a41d02730ffd67eecd7a273daf1c370d921f0892fb157f04a2781693a374",
+    "web/app.js": "b864429bd357573913603d2831316ea685497417293bc1177cf9ed6b6d35ffbe",
+    "web/app.css": "90f1dea6aaf05d1bc245e40517affd0e36fcacb488e34ee1b3bc3361a1eeaa8c",
+    "tests/test_console.py": "e6b35f33b10756c96b14e1431d72034af98a4bbd2a7e14764890aa946a2bcef0"
+  },
+  "real_supplier_or_customer_use": false,
+  "new_remote_ci_at_recording": "UNRUN",
+  "independent_review_at_recording": "UNRUN",
+  "publication_at_recording": "NOT_PERFORMED"
+}

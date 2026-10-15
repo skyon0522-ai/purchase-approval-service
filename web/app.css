@@ -1,0 +1,14 @@
+body{margin:0;font:16px/1.6 system-ui,sans-serif;background:#f4f7fb;color:#182736}
+.shell{max-width:54rem;margin:auto;padding:1.5rem 1rem}header.shell{padding-bottom:0}h1{font-size:2.3rem;line-height:1.2}h2{font-size:1.25rem}h3{font-size:1rem}
+.panel,dialog{background:white;border:1px solid #d1dce8;border-radius:.6rem;padding:1.5rem;margin:1rem 0;overflow-wrap:anywhere}.eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.08em;color:#31556d}
+label{display:block;font-weight:600;margin-top:1rem}input,select,button{font:inherit;box-sizing:border-box;min-height:44px}input,select{display:block;width:100%;padding:.6rem;border:1px solid #74889c;border-radius:.3rem;background:white;color:inherit}
+button{border:1px solid #155b87;background:#155b87;color:white;border-radius:.3rem;padding:.6rem 1rem;cursor:pointer}button:disabled{opacity:.55;cursor:default}.secondary{background:white;color:#155b87}
+#review{margin-top:.8rem}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:.7rem;margin:.8rem 0}.row input{flex:1;min-width:10rem}.row h2{margin-right:auto}.columns{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.hint{color:#425a6c;font-size:.95rem}.notice{border-left:4px solid #a72f2f;background:#fff4f1;padding:1rem;color:#76201d}[hidden]{display:none!important}
+dl{display:grid;grid-template-columns:9rem 1fr;gap:.5rem 1rem}dt{font-weight:600}dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.scroll{overflow:auto}table{border-collapse:collapse;min-width:40rem;width:100%}th,td{text-align:left;padding:.7rem;border-bottom:1px solid #d1dce8}thead{background:#eaf1f8}
+dialog{position:fixed;inset:0;max-width:34rem;width:calc(100% - 2rem);max-height:90vh;overflow:auto;box-sizing:border-box;margin:auto}dialog::backdrop{background:#18273699}
+:focus-visible{outline:3px solid #bf6509;outline-offset:3px}summary{cursor:pointer;font-weight:600}.skip{position:absolute;left:-9999px}.skip:focus{left:1rem;top:1rem;background:white;padding:1rem;z-index:2}
+@media(max-width:600px){.columns{grid-template-columns:1fr;gap:0}.panel{padding:1rem}dl{grid-template-columns:1fr;gap:.2rem}dd{margin-bottom:.6rem}.row button{flex-grow:1}}
+@media print{body{background:white}.panel{border:0;padding:0}button,.skip,dialog{display:none}}
